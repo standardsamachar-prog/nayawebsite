@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> स्ट्यान्डर्ड खबर </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #dc3545;
+            --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #ddd;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #378bf0;
+            --secondary-color: #ff4757;
+            --dark-color: #f8f9fa;
+            --light-color: #121212;
+            --text-color: #e0e0e0;
+            --bg-color: #181818;
+            --card-bg: #242424;
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            padding: 8px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.1rem;
+        }
+
+        /* Header & Logo */
+        header {
+            background-color: var(--bg-color);
+            padding: 20px 5%;
+            text-align: center;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .logo-area h1 {
+            color: var(--secondary-color);
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .logo-area span {
+            color: var(--primary-color);
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-container li a {
+            display: block;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .nav-container li a:hover, .nav-container li.active a {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            margin-bottom: -3px;
+        }
+
+        /* Breaking News Ticker */
+        .breaking-news {
+            background: var(--secondary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 5px 5%;
+            font-weight: bold;
+        }
+        .breaking-label {
+            padding: 5px 10px;
+            background: #a71d2a;
+            white-space: nowrap;
+            margin-right: 15px;
+            border-radius: 3px;
+        }
+        .ticker-wrapper {
+            overflow: hidden;
+            width: 100%;
+        }
+        .ticker-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 25s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        /* Main Story Component */
+        .main-story {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .main-story img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .story-content {
+            padding: 25px;
+        }
+
+        .category-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 3px 10px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .story-content h2 {
+            margin: 15px 0;
+            font-size: 2.2rem;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .meta-info i { margin-right: 5px; }
+
+        .story-content p {
+            color: var(--text-color);
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* News Grid Section */
+        .section-title {
+            font-size: 1.5rem;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 10px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-body h3 {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+
+        /* Sidebar */
+        aside {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar-widget {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .trending-list {
+            list-style: none;
+        }
+
+        .trending-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+
+        .trending-num {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            opacity: 0.7;
+        }
+
+        .trending-text h4 {
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: #ccc;
+            padding: 40px 5% 20px 5%;
+            margin-top: 50px;
+            font-size: 0.95rem;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #333;
+        }
+
+        .footer-about h2 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .footer-links h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            font-size: 1.3rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+            }
+            .nav-container li a {
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div id="live-clock"><i class="fa-regular fa-clock"></i> लोड हुँदैछ...</div>
+        <div>
+            <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i> डार्क मोड
+            </button>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo-area">
+            <a href="#"><h1>स्ट्यान्डर्ड<span>खबर</span></h1></a>
+            <p>सबै विचारा दिन्छ उत्तिकै स्थान, स्ट्यान्डर्ड खबर जनताको पहिचान</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul class="nav-container">
+            <li class="active"><a href="#"><i class="fa-solid fa-house"></i> गृहपृष्ठ</a></li>
+            <li><a href="#">राजनीति</a></li>
+            <li><a href="#">अर्थतन्त्र</a></li>
+            <li><a href="#">खेलकुद</a></li>
+            <li><a href="#">मनोरञ्जन</a></li>
+            <li><a href="#">प्रविधि</a></li>
+            <li><a href="#">विचार</a></li>
+        </ul>
+    </nav>
+
+    <div class="breaking-news">
+        <div class="breaking-label"><i class="fa-solid fa-bolt"></i> ब्रेकिङ न्युज</div>
+        <div class="ticker-wrapper">
+            <div class="ticker-text">
+                यो स्ट्यान्डर्ड खबरको गोकर्ण श्रेष्ठले बनाएको नयाँ वेबसाइट हो। यसमा सम्पूर्ण किसिमका समाचारहरु सामग्रीहरु प्रकाशन हुन्छ मौसमदेखि राजनीतिदेखि अर्थदेखि सबै किसिमका समाचारहरु हेर्नको लागि स्ट्यान्डर्ड खबरको यो न्युज पोर्टललाई फलो गर्नुहोला 
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <main>
+            <article class="main-story">
+                <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80" alt="Kathmandu Infrastructure">
+                <div class="story-content">
+                    <span class="category-badge">विकास र पूर्वाधार</span>
+                    <h2>काठमाडौँ उपत्यकाको ढल तथा सडक सञ्जाल सुधारका लागि नयाँ गुरुयोजना स्वीकृत</h2>
+                    <div class="meta-info">
+                        <span><i class="fa-regular fa-user"></i> विशेष संवाददाता</span> | 
+                        <span><i class="fa-regular fa-calendar"></i> आज, असार १</span>
+                    </div>
+                    <p>सरकारले काठमाडौँ उपत्यकाको बढ्दो जनघनत्व र वर्षायाममा हुने डुबानको समस्यालाई दीर्घकालीन रूपमा समाधान गर्न नयाँ गुरुयोजना स्वीकृत गरेको छ। भौतिक पूर्वाधार तथा यातायात मन्त्रालयका अनुसार आगामी पाँच वर्षभित्र मुख्य सडक तथा ढल निकास प्रणालीलाई आधुनिक प्रविधिमैत्री बनाइनेछ। यस योजनाका लागि विभिन्न दातृ निकायसँगको सहकार्यमा बजेट सुनिश्चित भइसकेको छ।</p>
+                </div>
+            </article>
+
+            <h2 class="section-title">ताजा अपडेट</h2>
+            <div class="news-grid">
+                
+                <div class="news-card">
+                    <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=400&q=80" alt="Economy">
+                    <div class="card-body">
+                        <span class="category-badge" style="background:#28a745;">अर्थतन्त्र</span>
+                        <div class="meta-info" style="margin-top: 8px;"><i class="fa-regular fa-clock"></i> ३० मिनेट अगाडि</div>
+                        <h3>नेपाल भित्रिने रेमिट्यान्समा यो महिना ११ प्रतिशतको रेकर्ड वृद्धि</h3>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=400&q=80" alt="Sports">
+                    <div class="card-body">
+                        <span class="category-badge" style="background:#ffc107; color:#333;">खेलकुद</span>
+                        <div class="meta-info" style="margin-top: 8px;"><i class="fa-regular fa-clock"></i> १ घण्टा अगाडि</div>
+                        <h3>राष्ट्रिय क्रिकेट टोलीका मुख्य प्रशिक्षक भन्छन्- "हाम्रो लक्ष्य विश्वकप नै हो"</h3>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80" alt="Tech">
+                    <div class="card-body">
+                        <span class="category-badge" style="background:#17a2b8;">प्रविधि</span>
+                        <div class="meta-info" style="margin-top: 8px;"><i class="fa-regular fa-clock"></i> २ घण्टा अगाडि</div>
+                        <h3>सरकारी सेवाहरूलाई एकीकृत गर्न नयाँ मोबाइल एप सार्वजनिक हुँदै</h3>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=400&q=80" alt="Art">
+                    <div class="card-body">
+                        <span class="category-badge" style="background:#e83e8c;">मनोरञ्जन</span>
+                        <div class="meta-info" style="margin-top: 8px;"><i class="fa-regular fa-clock"></i> ३ घण्टा अगाडि</div>
+                        <h3>नेपाली मौलिक चलचित्रहरूको अन्तर्राष्ट्रिय बजारमा माग बढ्दो</h3>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <aside>
+            <div class="sidebar-widget">
+                <h3 class="section-title" style="border-left-color: var(--secondary-color);">लोकप्रिय समाचार</h3>
+                <ul class="trending-list">
+                    <li class="trending-item">
+                        <div class="trending-num">१</div>
+                        <div class="trending-text">
+                            <a href="#"><h4>काठमाडौँ भित्रिने मुख्य नाका नागढुङ्गा सुरुङमार्गको अन्तिम तयारी तीव्र</h4></a>
+                        </div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-num">२</div>
+                        <div class="trending-text">
+                            <a href="#"><h4>स्थानीय उत्पादनलाई प्रोत्साहन गर्न नयाँ कर नीति ल्याइने</h4></a>
+                        </div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-num">३</div>
+                        <div class="trending-text">
+                            <a href="#"><h4>पर्यटन क्षेत्रमा उत्साह: प्रमुख पर्यटकीय गन्तव्यहरूमा पर्यटकको चाप</h4></a>
+                        </div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-num">४</div>
+                        <div class="trending-text">
+                            <a href="#"><h4>स्मार्ट सवारी चालक अनुमति पत्र (लाइसेन्स) वितरण प्रणालीमा सुधार</h4></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget" style="background: var(--primary-color); color: white;">
+                <h3>हाम्रो न्यूजलेटर</h3>
+                <p style="font-size:0.9rem; margin: 10px 0 15px 0;">महत्वपूर्ण समाचारहरू सिधै आफ्नो इमेलमा पाउनको लागि दर्ता गर्नुहोस्।</p>
+                <input type="email" placeholder="तपाईंको इमेल लेख्नुहोस्..." style="width:100%; padding:10px; border:none; border-radius:4px; margin-bottom:10px;">
+                <button style="width:100%; padding:10px; background:var(--secondary-color); color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">सदस्यता लिनुहोस्</button>
+            </div>
+        </aside>
+
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-about">
+                <h2>Standard khabar </h2>
+                <p> सबैको विचारलाई दिन्छौं उत्तिकै स्थान, स्ट्यान्डर्ड खबर जनताको पहिचान </p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>महत्वपूर्ण लिङ्कहरू</h3>
+                <ul>
+                    <li><a href="#">हाम्रो बारेमा</a></li>
+                    <li><a href="#">सम्पर्क सम्पर्क</a></li>
+                    <li><a href="#">विज्ञापन नीति</a></li>
+                    <li><a href="#">गोपनीयता नीति</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>विधागत वर्गीकरण</h3>
+                <ul>
+                    <li><a href="#">राजनीति</a></li>
+                    <li><a href="#">अर्थतन्त्र</a></li>
+                    <li><a href="#">मनोरञ्जन</a></li>
+                    <li><a href="#">खेलकुद</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; यो गोकर्ण श्रेष्ठले बनाएको स्ट्यान्डर्ड खबरको न्युज पोर्टल वेबसाइट हो।  | Designed with <span style="color:red;">&hearts;</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Live Clock Function
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            // Simple display for live time
+            const timeString = now.toLocaleTimeString('ne-NP') + " | " + now.toLocaleDateString('ne-NP', options);
+            document.getElementById('live-clock').innerHTML = `<i class="fa-regular fa-clock"></i> ${timeString}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Dark/Light Theme Toggle Function
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const themeBtn = document.getElementById('themeBtn');
+            
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i> डार्क मोड';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i> लाइट मोड';
+            }
+        }
+    </script>
+</body>
+</html>
